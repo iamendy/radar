@@ -1,6 +1,5 @@
-import { useAccount, useContractRead } from "wagmi";
-import connect from "../constants/connect";
-import splitData from "../helpers/splitData";
+import { useAccount, useNetwork, useContractRead } from "wagmi";
+
 import {
   Chart as ChartJs,
   LineElement,
@@ -12,6 +11,8 @@ import {
   PointElement,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
+import connect from "../constants/connect";
+import splitData from "../helpers/splitData";
 
 ChartJs.register(
   LineElement,
@@ -25,13 +26,15 @@ ChartJs.register(
 
 const SavingsGraph = () => {
   const { address } = useAccount();
+  const { chain } = useNetwork();
 
   const { data: history } = useContractRead({
     //@ts-ignore
-    address: connect?.address,
-    abi: connect?.abi,
+    address: connect?.[chain?.id].address,
+    //@ts-ignore
+    abi: connect?.[chain?.id].abi,
     functionName: "getHistory",
-    args: [address, "EUR"],
+    args: [address],
     watch: true,
   });
 
@@ -46,8 +49,7 @@ const SavingsGraph = () => {
         fill: false,
         borderColor: "rgb(0, 0, 0)",
         tension: 0.1,
-        backgroundColor: "#FFD55A",
-
+        backgroundColor: "rgb(21 128 61 / 0.9)",
         width: 5,
         borderWidth: 1,
         borderRadius: 15,
@@ -62,7 +64,7 @@ const SavingsGraph = () => {
       {
         //@ts-ignore
         history?.length > 0 ? (
-          <Line data={chartData}>Graph here</Line>
+          <Line data={chartData} />
         ) : (
           <div className="text-left">No record found</div>
         )

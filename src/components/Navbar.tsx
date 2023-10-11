@@ -7,6 +7,8 @@ import {
   useAccountModal,
   useChainModal,
 } from "@rainbow-me/rainbowkit";
+import Logo from "./icons/Logo";
+import ChevronDown from "./icons/ChevronDown";
 
 const Navbar = () => {
   const { openConnectModal } = useConnectModal();
@@ -18,7 +20,10 @@ const Navbar = () => {
   return (
     <nav>
       <nav className="flex justify-between w-full p-6 2xl:px-24 text-base-100 font-bold border-b border-b-gray ">
-        <Link href="/">Rainfy</Link>
+        <Link href="/" className="flex items-center gap-x-1">
+          <Logo />
+          Radar
+        </Link>
 
         <Menu />
         <div className="hidden lg:flex items-center space-x-9 text-base-100 font-medium leading-[1.6em]">
@@ -33,7 +38,7 @@ const Navbar = () => {
 
           {openAccountModal && (
             <>
-              <Link href="/dashboard">Dashboard</Link>
+              <Link href="/dashboard"> Dashboard </Link>
 
               <button
                 onClick={openAccountModal}
@@ -46,13 +51,13 @@ const Navbar = () => {
             </>
           )}
 
-          {isConnected && chain?.id !== 10200 && (
+          {openChainModal && (
             <button
-              className="bg-red-500 rounded-md text-white p-2"
+              className="border border-gray rounded-md text-black p-2 flex"
               onClick={openChainModal}
               type="button"
             >
-              Wrong Network
+              {chain?.name} <ChevronDown />
             </button>
           )}
         </div>

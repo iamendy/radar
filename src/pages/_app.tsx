@@ -7,6 +7,7 @@ import { scrollSepolia } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 import { Inter } from "next/font/google";
 import { useEffect, useState } from "react";
+import Layout from "../components/Layout";
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [scrollSepolia],
@@ -46,7 +47,9 @@ function MyApp({ Component, pageProps }: AppProps) {
       {isLoaded && (
         <WagmiConfig config={wagmiConfig}>
           <RainbowKitProvider chains={chains} modalSize="compact">
-            <Component {...pageProps} />
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
           </RainbowKitProvider>
         </WagmiConfig>
       )}

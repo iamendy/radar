@@ -1,11 +1,13 @@
 import Image from "next/image";
-import preview from "../public/img/preview.png";
+import preview from "../../public/img/preview.png";
 import Stroke from "./icons/Stroke";
 import { useAccount } from "wagmi";
 import Link from "next/link";
+import { useConnectModal } from "@rainbow-me/rainbowkit";
 
 const Hero = () => {
   const { isConnected } = useAccount();
+  const { openConnectModal } = useConnectModal();
 
   return (
     <section className="py-8 px-4 lg:pt-10 lg:px-7 pb-16">
@@ -25,8 +27,8 @@ const Hero = () => {
             className="text-lg font-medium leading-[1.75em] text-center 
           md:w-[70%] md:mx-auto lg:w-[60%] lg:text-2xl"
           >
-            Develop your saving habits and avoid impulse spending by leveraging
-            on the security and transparency of Gnosis blockchain.
+            Hedge against hyperinflation and impulse spending by swapping your
+            naira and saving on the security and transparency of the blockchain.
           </p>
 
           <div className="flex items-center justify-center">
@@ -38,7 +40,10 @@ const Hero = () => {
                 Start saving →
               </Link>
             ) : (
-              <button className="bg-yellow font-bold text-base-100 px-5 py-3 rounded-lg lg:px-9">
+              <button
+                onClick={openConnectModal}
+                className="bg-yellow font-bold text-base-100 px-5 py-3 rounded-lg lg:px-9"
+              >
                 Connect wallet →
               </button>
             )}

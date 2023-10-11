@@ -5,28 +5,32 @@ import {
   useContractWrite,
   usePrepareContractWrite,
   useWaitForTransaction,
+  useNetwork,
 } from "wagmi";
 import connect from "../constants/connect";
 import { ethers } from "ethers";
 import Loader from "./icons/Loader";
-import Currency from "../types";
 
-const UpdatePiggy = ({ selectedCurrency }: { selectedCurrency: Currency }) => {
+const UpdatePiggy = () => {
   const [amount, setAmount] = useState("");
   const [isApproved, setIsApproved] = useState(false);
-
+  const { chain } = useNetwork();
   const debouncedAmount = useDebounce<string>(amount, 500);
 
   //to check amount input
-  const { balance } = useGetBalance(selectedCurrency);
+  const balance = useGetBalance("usdc");
 
   const { config } = usePrepareContractWrite({
     //@ts-ignore
-    address: selectedCurrency?.address,
+    address: connect?.[chain?.id]?.usdc?.address,
     //@ts-ignore
-    abi: selectedCurrency?.abi,
+    abi: connect?.[chain?.id]?.usdc?.abi,
     functionName: "approve",
-    args: [connect?.address, ethers.parseEther(debouncedAmount || "0")],
+    args: [
+      //@ts-ignore
+      connect?.[chain?.id]?.address,
+      ethers.parseEther(debouncedAmount || "0"),
+    ],
   });
 
   const {
@@ -47,10 +51,11 @@ const UpdatePiggy = ({ selectedCurrency }: { selectedCurrency: Currency }) => {
   //-- Save -- //
   const { config: saveConfig, refetch } = usePrepareContractWrite({
     //@ts-ignore
-    address: connect?.address,
-    abi: connect?.abi,
+    address: connect?.[chain?.id].address,
+    //@ts-ignore
+    abi: connect?.[chain?.id].abi,
     functionName: "updateBalance",
-    args: [ethers.parseEther(debouncedAmount || "0"), selectedCurrency?.symbol],
+    args: [ethers.parseEther(debouncedAmount || "0")],
   });
 
   const {
@@ -70,7 +75,7 @@ const UpdatePiggy = ({ selectedCurrency }: { selectedCurrency: Currency }) => {
   });
 
   return (
-    <div className="flex flex-col gap-y-3">
+    <div className="flex flex-col gap-y-3 py-4">
       <div>
         <label htmlFor="" className="text-base font-medium text-gray-900">
           Update Amount
@@ -81,8 +86,8 @@ const UpdatePiggy = ({ selectedCurrency }: { selectedCurrency: Currency }) => {
             onChange={(e) => setAmount(e.target.value)}
             disabled={isApproved || isApproving || isWaitingTx}
             className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-            type="email"
-            placeholder="50"
+            type="text"
+            placeholder="USDC"
           ></input>
         </div>
       </div>

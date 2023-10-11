@@ -29,8 +29,8 @@ const Faq = () => {
                   2
                 </span>
                 <span>
-                  Allow our dApp to connect your Monerium account. You can
-                  easily create one
+                  Deposit Naira through USSD, debit card or mobile money to get
+                  USDC
                 </span>
               </h3>
             </div>
@@ -44,8 +44,8 @@ const Faq = () => {
                 </div>
 
                 <span>
-                  Save from your available currencies and set a duration. We
-                  only charge you when you break your piggy before duration.
+                  Save from your available balance and set a duration. We only
+                  charge you when you break your piggy before duration.
                 </span>
               </h3>
             </div>
