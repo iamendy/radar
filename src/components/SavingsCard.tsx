@@ -27,9 +27,9 @@ const SavingsCard = () => {
 
   const { config, refetch } = usePrepareContractWrite({
     //@ts-ignore
-    address: connect?.[chain?.id].address,
+    address: connect?.address,
     //@ts-ignore
-    abi: connect?.[chain?.id].abi,
+    abi: connect?.abi,
     functionName: "breakPiggy",
     enabled: false,
   });

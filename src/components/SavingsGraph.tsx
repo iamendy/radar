@@ -1,4 +1,4 @@
-import { useAccount, useNetwork, useContractRead } from "wagmi";
+import { useAccount, useContractRead } from "wagmi";
 
 import {
   Chart as ChartJs,
@@ -26,13 +26,12 @@ ChartJs.register(
 
 const SavingsGraph = () => {
   const { address } = useAccount();
-  const { chain } = useNetwork();
 
   const { data: history } = useContractRead({
     //@ts-ignore
-    address: connect?.[chain?.id].address,
+    address: connect?.address,
     //@ts-ignore
-    abi: connect?.[chain?.id].abi,
+    abi: connect?.abi,
     functionName: "getHistory",
     args: [address],
     watch: true,

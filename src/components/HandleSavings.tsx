@@ -10,9 +10,9 @@ const HandleSavings = () => {
 
   const { data: isActive } = useContractRead({
     //@ts-ignore
-    address: connect?.[chain?.id].address,
+    address: connect?.address,
     //@ts-ignore
-    abi: connect?.[chain?.id].abi,
+    abi: connect?.abi,
     functionName: "isActive",
     args: [address],
     watch: true,
